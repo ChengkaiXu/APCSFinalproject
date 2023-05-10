@@ -8,6 +8,12 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("Mini golf game");
         window.setResizable(false);
+
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+
+        window.pack();
+
         window.setVisible(true);
         window.setLocation(null);
     }
