@@ -21,6 +21,8 @@ public class GamePanel extends JPanel implements Runnable{
         int golfX = 7 * tilesize;
         int golfY = 14 * tilesize ;
         int speed;
+        int maxspeed = 10;
+        int decrease = 1;
 
         public GamePanel(){
                 this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -36,33 +38,25 @@ public class GamePanel extends JPanel implements Runnable{
 
         @Override
         public void run() {
-                double drawInterval = 1000000000 / FPS;
-                double nextDraw = System.nanoTime() + drawInterval;
-                while(gameThread != null){
+
+                while(true){
                         update();
 
                         repaint();
 
                         try {
-                                double remainingTime = nextDraw - System.nanoTime();
-                                remainingTime = remainingTime / 1000000;
-
-                                if (remainingTime < 0){
-                                        remainingTime = 0;
-                                }
-                                Thread.sleep((long) drawInterval);
-                                nextDraw += drawInterval;
+                                Thread.sleep(10);
                         }
                         catch (InterruptedException e) {
-                                e.printStackTrace();
+                                throw new RuntimeException(e);
                         }
                 }
         }
 
         public void update(){
-                golfX += 1;
-                golfY -= 1;
-                System.out.println("working");
+                if (mouse1.aimed){
+
+                }
         }
         public void paintComponent(Graphics g){
                 super.paintComponent(g);
@@ -70,6 +64,5 @@ public class GamePanel extends JPanel implements Runnable{
                 g2.setColor(Color.black);
                 g2.fillOval(golfX, golfY, tilesize, tilesize);
                 g2.dispose();
-                System.out.println("work");
         }
 }

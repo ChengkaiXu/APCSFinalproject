@@ -15,5 +15,7 @@ public class Main {
         window.pack();
 
         window.setVisible(true);
+
+        gamePanel1.StartGameThread();
     }
 }

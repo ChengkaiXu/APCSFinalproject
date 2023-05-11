@@ -5,22 +5,24 @@ import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
 
-    public boolean clicked, released, entered;
-    public boolean aiming = false;
+    public boolean aimed = true;
+
+    public int ReleasedX;
+    public int ReleasedY;
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        aiming = true;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        ReleasedX = e.getX();
+        ReleasedY = e.getY();
+        aimed = true;
     }
 
     @Override
