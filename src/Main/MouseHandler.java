@@ -5,10 +5,12 @@ import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
 
+    public boolean clicked, released, entered;
+    public boolean aiming = false;
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        aiming = true;
     }
 
     @Override

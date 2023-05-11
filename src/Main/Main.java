@@ -9,12 +9,11 @@ public class Main {
         window.setTitle("Mini golf game");
         window.setResizable(false);
 
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
+        GamePanel gamePanel1 = new GamePanel();
+        window.add(gamePanel1);
 
         window.pack();
 
         window.setVisible(true);
-        window.setLocation(null);
     }
 }
