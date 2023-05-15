@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
 
-    public boolean aimed = true;
+    public boolean aimed = false;
 
     public int ReleasedX;
     public int ReleasedY;
@@ -16,6 +16,7 @@ public class MouseHandler implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.println("Pressed");
     }
 
     @Override

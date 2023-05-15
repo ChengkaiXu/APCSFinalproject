@@ -16,17 +16,16 @@ public class GamePanel extends JPanel implements Runnable{
 
         Thread gameThread;
 
-        int FPS = 60;
-
         int golfX = 7 * tilesize;
         int golfY = 14 * tilesize ;
         int speed;
-        int maxspeed = 10;
+        int changeY;
+        int changeX;
         int decrease = 1;
 
         public GamePanel(){
                 this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-                this.setBackground(Color.GRAY);
+                this.setBackground(Color.GREEN);
                 this.setDoubleBuffered(true);
                 this.addMouseListener(mouse1);
         }
@@ -55,13 +54,18 @@ public class GamePanel extends JPanel implements Runnable{
 
         public void update(){
                 if (mouse1.aimed){
-
+                        System.out.println("triggered");
+                        speed = (int) Math.sqrt(Math.pow(golfX - mouse1.ReleasedX, 2) +
+                                Math.pow(golfY - mouse1.ReleasedY, 2)) / 100;
+                        mouse1.aimed = false;
                 }
+
+                System.out.println(speed);
         }
         public void paintComponent(Graphics g){
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.black);
+                g2.setColor(Color.white);
                 g2.fillOval(golfX, golfY, tilesize, tilesize);
                 g2.dispose();
         }
