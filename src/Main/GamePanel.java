@@ -64,33 +64,33 @@ public class GamePanel extends JPanel implements Runnable{
                         move();
                         mouse1.aimed = false;
                 }
-                golfX += velocityX;
-                golfY += velocityY;
-                checkBounce();
                 if (velocityX != 0 && velocityY != 0) {
+                        checkBounce();
                         golfX += velocityX;
                         golfY += velocityY;
-                        checkBounce();
                 }
                 else if (velocityY != 0 && line){
-                        golfY += velocityY;
                         checkBounce();
+                        golfY += velocityY;
                 }
                 else if (velocityX != 0 && line){
-                        golfX += velocityX;
                         checkBounce();
+                        golfX += velocityX;
                 }
                 else if (velocityX == 0 && velocityY == 0){
                         moving = false;
                         line = false;
                 }
-
         }
         public void paintComponent(Graphics g){
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setColor(Color.white);
                 g2.fillOval(golfX, golfY, originaltilesize, originaltilesize);
+                if (mouse1.aiming){
+                        System.out.println("Aiming");
+                        g2.drawLine(getX(), getY(), getX(), getY());
+                }
                 g2.dispose();
         }
         public void move(){
