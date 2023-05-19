@@ -17,13 +17,13 @@ public class GamePanel extends JPanel implements Runnable{
         Thread gameThread;
 
         int golfX = 7 * tilesize;
-        int golfY = 14 * tilesize ;
-        int speed;
+        int golfY = 14 * tilesize;
         int velocityX;
         int framecount = 0;
         int velocityY;
         int decrease = 1;
         boolean moving = false;
+        boolean line = false;
 
         public GamePanel(){
                 this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -47,16 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
 
                         framecount++;
                         if (framecount % 60 == 0) {
-                                if (velocityX > 0){
-                                        velocityX--;
-                                } else if (velocityX < 0) {
-                                        velocityX++;
-                                }
-                                if (velocityY > 0){
-                                        velocityY--;
-                                } else if (velocityY < 0) {
-                                        velocityY++;
-                                }
+                                takeoutV();
                         }
 
                         try {
@@ -81,16 +72,17 @@ public class GamePanel extends JPanel implements Runnable{
                         golfY += velocityY;
                         checkBounce();
                 }
-//                else if (velocityY != 0){
-//                        golfY += velocityY;
-//                        checkBounce();
-//                }
-//                else if (velocityX != 0){
-//                        golfX += velocityX;
-//                        checkBounce();
-//                }
-                else {
+                else if (velocityY != 0 && line){
+                        golfY += velocityY;
+                        checkBounce();
+                }
+                else if (velocityX != 0 && line){
+                        golfX += velocityX;
+                        checkBounce();
+                }
+                else if (velocityX == 0 && velocityY == 0){
                         moving = false;
+                        line = false;
                 }
 
         }
@@ -117,6 +109,9 @@ public class GamePanel extends JPanel implements Runnable{
                 }
                 else if (velocityX < -8){
                         velocityX = -8;
+                }
+                if (velocityY == 0|| velocityX == 0){
+                        line = true;
                 }
                 System.out.println("Vx" + velocityX + "Vy:" + velocityY);
                 moving = true;
