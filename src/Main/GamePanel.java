@@ -19,13 +19,15 @@ public class GamePanel extends JPanel implements Runnable{
         int golfX = 7 * tilesize;
         int golfY = 14 * tilesize ;
         int speed;
-        int changeY;
-        int changeX;
+        int velocityX;
+        int framecount = 0;
+        int velocityY;
         int decrease = 1;
+        boolean moving = false;
 
         public GamePanel(){
                 this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-                this.setBackground(Color.GREEN);
+                this.setBackground(new Color(44, 158, 73));
                 this.setDoubleBuffered(true);
                 this.addMouseListener(mouse1);
         }
@@ -43,8 +45,22 @@ public class GamePanel extends JPanel implements Runnable{
 
                         repaint();
 
+                        framecount++;
+                        if (framecount % 60 == 0) {
+                                if (velocityX > 0){
+                                        velocityX--;
+                                } else if (velocityX < 0) {
+                                        velocityX++;
+                                }
+                                if (velocityY > 0){
+                                        velocityY--;
+                                } else if (velocityY < 0) {
+                                        velocityY++;
+                                }
+                        }
+
                         try {
-                                Thread.sleep(10);
+                                Thread.sleep(16);
                         }
                         catch (InterruptedException e) {
                                 throw new RuntimeException(e);
@@ -53,20 +69,86 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         public void update(){
-                if (mouse1.aimed){
-                        System.out.println("triggered");
-                        speed = (int) Math.sqrt(Math.pow(golfX - mouse1.ReleasedX, 2) +
-                                Math.pow(golfY - mouse1.ReleasedY, 2)) / 100;
+                if (mouse1.aimed && !moving){
+                        move();
                         mouse1.aimed = false;
                 }
+                golfX += velocityX;
+                golfY += velocityY;
+                checkBounce();
+                if (velocityX != 0 && velocityY != 0) {
+                        golfX += velocityX;
+                        golfY += velocityY;
+                        checkBounce();
+                }
+//                else if (velocityY != 0){
+//                        golfY += velocityY;
+//                        checkBounce();
+//                }
+//                else if (velocityX != 0){
+//                        golfX += velocityX;
+//                        checkBounce();
+//                }
+                else {
+                        moving = false;
+                }
 
-                System.out.println(speed);
         }
         public void paintComponent(Graphics g){
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setColor(Color.white);
-                g2.fillOval(golfX, golfY, tilesize, tilesize);
+                g2.fillOval(golfX, golfY, originaltilesize, originaltilesize);
                 g2.dispose();
+        }
+        public void move(){
+                System.out.println(mouse1.ReleasedX);
+                System.out.println(mouse1.ReleasedY);
+                velocityX = (golfX - mouse1.ReleasedX) / 50;
+                velocityY = (golfY - mouse1.ReleasedY) / 50;
+                if (velocityY > 8){
+                        velocityY = 8;
+                }
+                else if (velocityY < -8){
+                        velocityY = -8;
+                }
+                if (velocityX > 8){
+                        velocityX = 8;
+                }
+                else if (velocityX < -8){
+                        velocityX = -8;
+                }
+                System.out.println("Vx" + velocityX + "Vy:" + velocityY);
+                moving = true;
+        }
+        public void checkBounce(){
+                if (golfY <= 0){
+                        velocityY = -velocityY;
+                        takeoutV();
+                }
+                if (golfY + originaltilesize >= screenHeight){
+                        velocityY = -velocityY;
+                        takeoutV();
+                }
+                if (golfX <= 0){
+                        velocityX = -velocityX;
+                        takeoutV();
+                }
+                if (golfX + originaltilesize / 2>= screenWidth){
+                        velocityX = -velocityX;
+                        takeoutV();
+                }
+        }
+        public void takeoutV(){
+                if (velocityX > 0){
+                        velocityX--;
+                } else if (velocityX < 0) {
+                        velocityX++;
+                }
+                if (velocityY > 0){
+                        velocityY--;
+                } else if (velocityY < 0) {
+                        velocityY++;
+                }
         }
 }
