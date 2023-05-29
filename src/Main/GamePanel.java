@@ -31,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable{
         public Goal goal = new Goal();
         public int changeX;
         public int changeY;
+        public Rectangle object1 = new Rectangle(200, 250, 200, 20);
 
         public GamePanel(){
                 this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -95,6 +96,7 @@ public class GamePanel extends JPanel implements Runnable{
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setColor(Color.white);
                 checkwin();
+                g2.fillRect((int) object1.getX(), (int) object1.getY(), (int) object1.getWidth(), object1.height);
                 if (!win) {
                         if (mouse1.aiming) {
                                 determine();
@@ -132,11 +134,13 @@ public class GamePanel extends JPanel implements Runnable{
                 moving = true;
         }
         public void checkBounce(){
-                if (golfY <= 0){
+                if (golfY <= 0 || (golfY <= object1.getY() && golfY >= object1.getY() + object1.getHeight())){
                         velocityY = -velocityY;
                         takeoutV();
                 }
-                if (golfY + originaltilesize >= screenHeight){
+                if (golfY + originaltilesize >= screenHeight
+                        || (golfY + originaltilesize<= object1.getY()
+                        && golfY + originaltilesize >= object1.getY() + object1.getHeight())){
                         velocityY = -velocityY;
                         takeoutV();
                 }
