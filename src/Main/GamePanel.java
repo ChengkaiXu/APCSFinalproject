@@ -31,7 +31,14 @@ public class GamePanel extends JPanel implements Runnable{
         public Goal goal = new Goal();
         public int changeX;
         public int changeY;
-        public Rectangle object1 = new Rectangle(200, 250, 200, 20);
+        public int recX = (int) (Math.random() * 200 + 200);
+        public int recY = (int) (Math.random() * 350 + 300);
+        public int recX1 = (int) (Math.random() * 200 + 200);
+        public int recY1 = (int) (Math.random() * 350 + 300);
+        public int wid = (int) (Math.random() * 15 + 20);
+        public int len = (int) (Math.random() * 100 + 100);
+        public Rectangle object1 = new Rectangle(recX, recY, 200, 20);
+        public Rectangle object2 = new Rectangle(recX1, recY1, wid, len);
 
         public GamePanel(){
                 this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -97,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable{
                 g2.setColor(Color.white);
                 checkwin();
                 g2.fillRect((int) object1.getX(), (int) object1.getY(), (int) object1.getWidth(), object1.height);
+                g2.fillRect(recX1, recY1, wid, len);
                 if (!win) {
                         if (mouse1.aiming) {
                                 determine();
@@ -134,23 +142,29 @@ public class GamePanel extends JPanel implements Runnable{
                 moving = true;
         }
         public void checkBounce(){
-                if (golfY <= 0 || (golfY <= object1.getY() && golfY >= object1.getY() + object1.getHeight())){
+                if (golfY <= 0){
                         velocityY = -velocityY;
-                        takeoutV();
                 }
-                if (golfY + originaltilesize >= screenHeight
-                        || (golfY + originaltilesize<= object1.getY()
-                        && golfY + originaltilesize >= object1.getY() + object1.getHeight())){
+                if (golfY + originaltilesize >= screenHeight){
                         velocityY = -velocityY;
-                        takeoutV();
                 }
                 if (golfX <= 0){
                         velocityX = -velocityX;
-                        takeoutV();
                 }
                 if (golfX + originaltilesize / 2>= screenWidth){
                         velocityX = -velocityX;
-                        takeoutV();
+                }
+                if(golfY + originaltilesize <= recY + 20
+                        && golfY + originaltilesize >= recY
+                        && golfX + originaltilesize<= recX + 200
+                        && golfX + originaltilesize >= recX){
+                        velocityY = -velocityY;
+                }
+                if(golfY + originaltilesize <= recY1 + len
+                        && golfY + originaltilesize >= recY1
+                        && golfX + originaltilesize<= recX1 + wid
+                        && golfX + originaltilesize >= recX1){
+                        velocityX = -velocityX;
                 }
         }
         public void takeoutV(){
