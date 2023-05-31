@@ -14,13 +14,9 @@ public class Main implements ActionListener {
         window.setTitle("Mini golf game");
         window.setResizable(false);
 
-        JButton playAgainButton = new JButton("Play Again");
-
         GamePanel gamePanel1 = new GamePanel();
 
         window.add(gamePanel1);
-
-        window.add(playAgainButton, BorderLayout.NORTH);
 
         window.pack();
 

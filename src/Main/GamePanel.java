@@ -8,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 public class GamePanel extends JPanel implements Runnable{
         final int originaltilesize = 16;
         final int scale = 3;
-
         final int tilesize = scale * originaltilesize; // 3 * 16 = 48
         final int maxScreenCol = 14;
         final int maxScreenRow = 17;
